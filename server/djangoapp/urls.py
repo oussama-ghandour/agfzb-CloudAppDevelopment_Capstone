@@ -14,7 +14,7 @@ urlpatterns = [
     # path for contact us view
     path('contact/',views.contact_view, name='contact'),
     # path for registration
-
+    path('signup/',views.registration_view, name='signup'),
     # path for login
     path('login/',views.login_view, name='login'),
     # path for logout

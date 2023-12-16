@@ -21,14 +21,30 @@ def about_view(request):
 # Create a `contact` view to return a static contact page
 def contact_view(request):
     return render(request, 'djangoapp/contact.html')
-
 # Create a `login_request` view to handle sign in request
-# def login_request(request):
-# ...
+def login_view(request):
+    context = {}
+   
+    if request.method == "POST":
+        
+        username = request.POST['username']
+        password = request.POST['password']
+       
+        user = authenticate(username=username, password=password)
+        if user is not None:  
+            login(request, user)
+            return redirect('djangoapp:index')
+        else:
+            # If not, return to login page again
+            return render(request, 'djangoapp/login.html', context)
+    else:
+        return render(request, 'djangoapp/login.html', context)
+
 
 # Create a `logout_request` view to handle sign out request
-# def logout_request(request):
-# ...
+def logout_view(request):
+    logout(request)
+    return render(request,'djangoapp/index.html')
 
 # Create a `registration_request` view to handle sign up request
 # def registration_request(request):

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
 # from .restapis import related methods
+from .restapis import get_dealers_from_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -83,9 +84,13 @@ def registration_view(request):
 def get_dealerships(request):
     context = {}
     if request.method == "GET":
+        url = "https://oussam92ing-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        # Get dealers from the URL
+        dealerships = get_dealers_from_cf(url)
+        dealer_names = ' '.join([dealer.shor_name for dealer in dealerships])
+        # List of dealer_short_name
+        return HttpResponse(dealer_names)
         return render(request, 'djangoapp/index.html', context)
-
-
 # Create a `get_dealer_details` view to render the reviews of a dealer
 # def get_dealer_details(request, dealer_id):
 # ...

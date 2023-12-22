@@ -30,6 +30,9 @@
                         <span class="nav-link">Welcome, {{ user.username }}</span>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'djangoapp:review' %}">Reviews</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'djangoapp:logout' %}">Logout</a>
                     </li>
                 {% else %}

@@ -6,18 +6,22 @@ class CarModelInline(admin.TabularInline):
     extra = 1
 
 class CarMakeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description')
     inlines = [CarModelInline]
+    list_display = ('name', 'description')
+   
 
 class CarModelAdmin(admin.ModelAdmin):
-    list_display = ('car_make', 'name', 'dealer_id', 'type', 'year')
+    list_display = ('name', 'dealer_id', 'car_type', 'year')
+    list_filter = ['year']
+    search_fields = ['name', 'car_type']
+
 
     # Override the save_model method to fetch dealer_id from Cloudant
-    def save_model(self, request, obj, form, change):
-        # Fetch dealer_id based on car_make and name 
-        dealer_id = get_dealer_id_from_cloudant(obj.car_make.name, obj.name)
-        obj.dealer_id = dealer_id
-        obj.save()
+    # def save_model(self, request, obj, form, change):
+    #     # Fetch dealer_id based on car_make and name 
+    #     dealer_id = get_dealer_id_from_cloudant(obj.car_make.name, obj.name)
+    #     obj.dealer_id = dealer_id
+    #     obj.save()
 
 admin.site.register(CarMake, CarMakeAdmin)
 admin.site.register(CarModel, CarModelAdmin)

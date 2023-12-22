@@ -65,6 +65,7 @@ def get_dealers_by_id_from_cf(url, id):
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result
+        print(dealers,"1")
         # For each dealer object
         for dealer in dealers:
             # Get its content in `doc` object
@@ -77,7 +78,7 @@ def get_dealers_by_id_from_cf(url, id):
                                    st=dealer_doc["st"], zip=dealer_doc["zip"])
                 results.append(dealer_obj)
 
-    return results
+    return results[0]
 
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function

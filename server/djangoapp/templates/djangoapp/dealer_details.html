@@ -9,10 +9,22 @@
 
     <body>
 
-    <!--Add a nav bar here -->
+        
 
     <!-- Add reviews as cards -->
-
+    <h2>Reviews for {{ dealer.full_name }}</h2>
+    <h1>{{dealer.city}}</h1>
+    <div class="card-columns">
+        {% for review in reviews %}
+            <div class="card">
+                <!-- Review content -->
+                <div class="card-body">
+                    <h5 class="card-title">{{ review.car_model }}, {{ review.car_make }}</h5>
+                    <h5 class="card-title">{{ review.car_year }}</h5>
+                    <p class="card-text">{{ review.review }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
     </body>
-
 </html>

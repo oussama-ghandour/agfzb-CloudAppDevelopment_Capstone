@@ -1,7 +1,7 @@
 import requests
 import json
 # import related models here
-from .models import CarDealer
+from .models import CarDealer,DealerReview
 from requests.auth import HTTPBasicAuth
 
 
@@ -40,9 +40,9 @@ def get_request(url, **kwargs):
 def get_dealers_from_cf(url, **kwargs):
     results = []
     # Call get_request with a URL parameter
-    json_result = get_request(url)
+    json_result = get_request(url) 
     if json_result:
-        # Get the row list in JSON as dealers
+        # Get the row list in JSON as dealersg
         dealers = json_result
         # For each dealer object
         for dealer in dealers:
@@ -54,23 +54,7 @@ def get_dealers_from_cf(url, **kwargs):
                                    short_name=dealer_doc["short_name"],
                                    st=dealer_doc["st"], zip=dealer_doc["zip"])
             results.append(dealer_obj)
-
     return results
-
-def get_review_from_cf(url, **kwargs):
-    results = []
-    json_result = get_request(url)
-    if json_result:
-        reviews = json_result
-        for review in reviews:
-            review_doc = review
-            review_obj = DealerReview(id=review_doc["id"], name=review_doc["name"], delearship=review_doc["dealership"],
-                                      review=review_doc["review"], purchase=review_doc["purchase"], purchase_date=review_doc["purchase_date"],
-                                      car_make=review_doc["car_make"],car_model=review_doc["car_model"],car_year=review_doc["car_year"])
-            results.append(review_obj)
-    return results
-
-
 
 # Create get_dealer_by_id
 def get_dealers_by_id_from_cf(url, id):

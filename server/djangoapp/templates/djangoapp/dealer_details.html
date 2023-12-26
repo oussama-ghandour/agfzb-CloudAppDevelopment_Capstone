@@ -59,27 +59,26 @@
         <div class="card border-info mb-3" style="max-width: 18rem;">
             <div class="card-header">Car Dealership Details</div>
             <div class="card-body text-info">
-              <h5 class="card-title"> Dealer Name:{{dealer.full_name}}</h5>
+              <h5 class="card-title"> Dealer Name : {{dealer.full_name}}</h5>
               <p class="card-text">{{dealer.city}}, {{dealer.state}}</p>
               <p class="card-text">{{dealer.address}}</p>
               <p class="card-text">{{delar.zip}}</p>
             </div>
         </div>
     </div>
-    <!-- Add reviews as cards -->
-    <!-- <h2>Reviews for {{ dealer.full_name }}</h2> -->
-    <!-- Review content -->
-    <div class="card-columns">
+    <div class="card-details">
+        <!-- This is where reviews will be displayed -->
         {% for review in reviews %}
-            <div class="card">
-                
+            <div class="card border-info mb-3" style="max-width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title">{{ review.car_model }}, {{ review.car_make }}</h5>
-                    <h5 class="card-title">{{ review.car_year }}</h5>
-                    <p class="card-text">{{ review.review }}</p>
+                    <h5 class="card-title">Model: {{ review.car_model }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Year: {{ review.car_year }}</h6>
+                    <p class="card-text">Review: {{ review.review }}</p>
                 </div>
             </div>
         {% endfor %}
     </div>
+    
+
     </body>
 </html>

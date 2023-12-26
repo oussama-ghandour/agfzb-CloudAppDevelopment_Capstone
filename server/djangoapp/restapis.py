@@ -33,8 +33,10 @@ def get_request(url, **kwargs):
 
 
 # Create a `post_request` to make HTTP POST requests
-# e.g., response = requests.post(url, params=kwargs, json=payload)
-
+def post_request(url, json_payload, **kwargs):
+    url= "https://oussam92ing-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+    response = requests.post(url, params=kwargs, json=payload)
+    return response
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
 def get_dealers_from_cf(url, **kwargs):
@@ -112,13 +114,18 @@ def get_dealer_reviews_from_cf(url, **kwargs):
     return results
 
 # - Call get_request() with specified arguments
-# - Parse JSON results into a DealerView object list
+# - Parse JSON results into a CarDealer DealerReview object list
 
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
-# def analyze_review_sentiments(text):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
+# def analyze_review_sentiments(text):
+
+    
+
+
+
 
 
 

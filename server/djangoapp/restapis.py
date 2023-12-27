@@ -130,7 +130,7 @@ def analyze_review_sentiments(text):
     if len(text.strip()) < 10:  # Adjust the minimum length as needed
        return "Text is too short for analysis"
     url = "https://api.au-syd.natural-language-understanding.watson.cloud.ibm.com/instances/9c428d52-b0fb-4772-bbf3-1a090fa59810"
-    api_key = "0Z_fjgJAxpmlQHwvpZxNIbD18asEjTKdhDmlbvfo3peF"
+    api_key = ""
     authenticator = IAMAuthenticator(api_key)
     natural_language_understanding = NaturalLanguageUnderstandingV1(version='2022-04-07',authenticator=authenticator)
     natural_language_understanding.set_service_url(url)

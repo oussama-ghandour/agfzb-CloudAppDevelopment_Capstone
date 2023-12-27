@@ -102,10 +102,10 @@ def get_dealer_details(request, id):
         context["reviews"] = reviews
         return render(request, 'djangoapp/dealer_details.html', context)
 # Create a `add_review` view to submit a review
-def add_review(request, dealer_id):
+def add_review(request, id):
     context = {}
     url = "https://oussam92ing-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
-    dealer = get_dealers_by_id_from_cf(dealer_url, id=id)
+    dealer = get_dealers_by_id_from_cf(url, id=id)
     context["dealer"] = dealer
     if request.method == "GET":
         cars = CarModel.objects.all()
@@ -114,9 +114,9 @@ def add_review(request, dealer_id):
 
         return render(request, 'djangoapp/add_review.html', context)
     elif request.method == "POST":
-        if request.user.is.authenticated:
+        if request.user.is_authenticated:
             username = request.user.username
-            print(post.request)
+            
             payload = dict()
             car_id = request.POST["car"]
             car = CarModel.objects.objects()

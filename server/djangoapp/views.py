@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
 from .models import CarModel
 # from .restapis import related methods
-from .restapis import get_dealers_from_cf,get_dealers_by_id_from_cf, get_dealer_reviews_from_cf
+from .restapis import get_dealers_from_cf,get_dealers_by_id_from_cf, get_dealer_reviews_from_cf, post_request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -114,20 +114,25 @@ def add_review(request, id):
 
         return render(request, 'djangoapp/add_review.html', context)
     elif request.method == "POST":
+        print(request.POST)
         if request.user.is_authenticated:
             username = request.user.username
-            
+            print(request.POST)
             payload = dict()
-            car_id = request.POST["car"]
-            car = CarModel.objects.objects()
-            payload["time"] = datetime.utcnow().isformat()
+            car_id = request.POST.get("car")
+            print(car_id)
+            car = CarModel.objects.get(pk=car_id)
+            payload["time"] = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
             payload["name"] = username
             payload["dealership"] = id
             payload["id"] = id
             payload["review"] = request.POST["content"]
             payload["purchase"] = False
-            payload["purchase_date"] = request.POST["purchase_date"]
-            payload["car_make"] = car.car.make.name
+            if "purchasecheck" in request.POST:
+                if request.POST["purchasecheck"] == 'on':
+                    payload["purchase"] = True
+            payload["purchase_date"] = request.POST.get("purchase_date")
+            payload["car_make"] = car.car_make.name
             payload["car_model"] = car.name
             payload["car_year"] = int(car.year.strftime("%Y"))
 
@@ -137,13 +142,13 @@ def add_review(request, id):
 
             review = {
                 "id" : id,
-                "time" : datetime.utcnow().isformat(),
+                "time" : datetime.utcnow().isoformat(),
                 "name" : request.user.username,
                 "dealership" : id,
                 "review" : request.POST["content"],
                 "purchase" : True,
-                "purchase_date" : request.POST["purchase_date"],
-                "car_make" : car.car.make.name,
+                "purchase_date" : request.POST.get("purchase_date"),
+                "car_make" : car.car_make.name,
                 "car_model" : car.name,
                 "car_year" : int(car.year.strftime("%Y")),
             }
@@ -151,9 +156,9 @@ def add_review(request, id):
             new_payload1 = {}
             new_payload1["review"] = review
             print("\nREVIEW:",review)
-            post_request(post_url, review, id = id)
+            post_request(post_url, review, id=id)
             print("successfully posted")
-        return redirect("djangoapp:dealer_details", id = id)
+        return redirect("djangoapp:dealers_details", id=id)
 
             
 

@@ -30,12 +30,13 @@
         
         <!-- Bootstrap dropdown to select a car -->
         <label for="car" style="font-weight: bold; font-size: 1.25rem;">Select your car (model-make-year):</label>
-        <select name="car" id="car" class="form-select" style="font-weight: bold; font-size: 1rem;" >
-            <option selected disabled value="">Choose a car...</option>
+        <select name="car" id="car" class="form-select" >
+          
             {% for car in cars %}
-                <option value="{{ car.id }}">{{ car.name }} - {{ car.car_make.name }} - {{ car.year|date:"Y" }}</option>
+                <option value="{{ car.id }}">{{ car.name }} - {{ car.make.name }} - {{ car.year|date:"Y" }}</option>
             {% endfor %}
         </select>
+        
         
         
         <!-- Date input for purchase date -->

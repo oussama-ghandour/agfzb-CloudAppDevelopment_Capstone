@@ -38,7 +38,7 @@ def get_request(url, **kwargs):
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
     url= "https://oussam92ing-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
-    response = requests.post(url, params=kwargs, json=payload)
+    response = requests.post(url, params=kwargs, json=json_payload)
     return response
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
@@ -127,16 +127,20 @@ def get_dealer_reviews_from_cf(url, **kwargs):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
 def analyze_review_sentiments(text):
-    if len(text.strip()) < 10:  # Adjust the minimum length as needed
-       return "Text is too short for analysis"
+    if len(text) < 100:
+        return "Text length is too short for sentiment analysis"
     url = "https://api.au-syd.natural-language-understanding.watson.cloud.ibm.com/instances/9c428d52-b0fb-4772-bbf3-1a090fa59810"
-    api_key = ""
+    api_key = "0Z_fjgJAxpmlQHwvpZxNIbD18asEjTKdhDmlbvfo3peF"
     authenticator = IAMAuthenticator(api_key)
-    natural_language_understanding = NaturalLanguageUnderstandingV1(version='2022-04-07',authenticator=authenticator)
+    natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator)
     natural_language_understanding.set_service_url(url)
     response = natural_language_understanding.analyze(text=text ,features=Features(sentiment=SentimentOptions(targets=[text]))).get_result()
-    label = response['sentiment']['document']['label']
-    return label
+    label=json.dumps(response, indent=2)
+    if 'sentiment' in response and 'document' in response['sentiment'] and 'label' in response['sentiment']['document']:
+        label = response['sentiment']['document']['label']
+        return label
+    else:
+        return "No sentiment label found", "No label"
     
 
 

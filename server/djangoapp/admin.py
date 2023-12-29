@@ -16,13 +16,6 @@ class CarModelAdmin(admin.ModelAdmin):
     search_fields = ['name', 'car_type']
 
 
-    # Override the save_model method to fetch dealer_id from Cloudant
-    # def save_model(self, request, obj, form, change):
-    #     # Fetch dealer_id based on car_make and name 
-    #     dealer_id = get_dealer_id_from_cloudant(obj.car_make.name, obj.name)
-    #     obj.dealer_id = dealer_id
-    #     obj.save()
-
 admin.site.register(CarMake, CarMakeAdmin)
 admin.site.register(CarModel, CarModelAdmin)
 

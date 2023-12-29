@@ -39,7 +39,7 @@ class CarModel(models.Model):
         ('MERCEDES_MAYBACH','Mercedes Maybach'),
         ('MERCEDES_CLASSE_G','Mercedes Classe G'),
     ]
-    # id = models.BigAutoField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
     dealer_id = models.IntegerField(default=1)
     name = models.CharField(max_length=100)  
@@ -102,3 +102,5 @@ class DealerReview:
     def __str__(self):
         return "Dealer Review: " + self.review
 
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)

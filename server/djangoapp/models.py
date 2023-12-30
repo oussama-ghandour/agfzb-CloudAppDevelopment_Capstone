@@ -16,28 +16,28 @@ class CarMake(models.Model):
 class CarModel(models.Model):
     
     # Porsche Models:
-    PORSCHE_CAYENNE = "porsche_cayenne"
-    PORSCHE_Panamera = "porsche_panamera"
-    PORSCHE_Carrera = "porsche_carrera"
+    CAYENNE = "cayenne"
+    Panamera = "panamera"
+    Carrera = "carrera"
 
     # Chevrolet Models:
-    CHEVROLET_TRAVERSE = "chevrolet_traverse"
-    CHEVROLET_BLAZER = "chevrolet_blazer"
+    TRAVERSE = "traverse"
+    BLAZER = "blazer"
 
     # Mercedes Models:
-    MERCEDES_CLS = "mercedes_cls"
-    MERCEDES_MAYBACH = "mercedes_maybach"
-    MERCEDES_CLASSE_G = "mercedes_classe_g"
+    CLS = "cls"
+    MAYBACH = "maybach"
+    CLASSE_G = "classe_g"
 
     CAR_CHOICES = [
-        ('PORSCHE_CAYENNE','Porsche Cayenne'),
-        ('PORSCHE_PANAMERA', 'Porsche Panamera'),
-        ('PORSCHE_CARRERA','Porsche Carrera'),
-        ('CHEVROLET_TRAVERSE','Chevrolet Traverse'),
-        ('CHEVROLET_BLAZER','Chevrolet Blazer'),
-        ('MERCEDES_CLS','Mercedes Cls'),
-        ('MERCEDES_MAYBACH','Mercedes Maybach'),
-        ('MERCEDES_CLASSE_G','Mercedes Classe G'),
+        ('CAYENNE','Cayenne'),
+        ('PANAMERA', 'Panamera'),
+        ('CARRERA','Carrera'),
+        ('TRAVERSE','Traverse'),
+        ('BLAZER','Blazer'),
+        ('CLS','Cls'),
+        ('MAYBACH','Maybach'),
+        ('CLASSE_G','Classe G'),
     ]
     id = models.BigAutoField(primary_key=True)
     car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
@@ -47,7 +47,7 @@ class CarModel(models.Model):
         null=False,
         max_length=20,
         choices=CAR_CHOICES,
-        default=MERCEDES_CLASSE_G, 
+        default=CLASSE_G, 
     )
     year = models.DateField(default=now)
 

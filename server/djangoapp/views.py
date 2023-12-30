@@ -84,7 +84,7 @@ def registration_view(request):
 def get_dealerships(request):
     if request.method == "GET":
         context = {}
-        url = "https://oussam92ing-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        url = "https://oussam92ing-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
         dealerships = get_dealers_from_cf(url)
         context["dealership_list"] = dealerships
        
@@ -93,10 +93,10 @@ def get_dealerships(request):
 def get_dealer_details(request, id):
     if request.method == "GET":
         context = {}
-        dealer_url = "https://oussam92ing-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        dealer_url = "https://oussam92ing-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
         dealer = get_dealers_by_id_from_cf(dealer_url, id=id)
         context["dealer"] = dealer
-        review_url = "https://oussam92ing-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
+        review_url = "https://oussam92ing-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
         reviews = get_dealer_reviews_from_cf(review_url, id=id)
         print(reviews)
         context["reviews"] = reviews
@@ -104,7 +104,7 @@ def get_dealer_details(request, id):
 # Create a `add_review` view to submit a review
 def add_review(request, id):
     context = {}
-    url = "https://oussam92ing-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+    url = "https://oussam92ing-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
     dealer = get_dealers_by_id_from_cf(url, id=id)
     context["dealer"] = dealer
     if request.method == "GET":
@@ -138,7 +138,7 @@ def add_review(request, id):
 
             new_payload = {}
             new_payload["review"] = payload
-            post_url  = "https://oussam92ing-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+            post_url  = "https://oussam92ing-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
 
             review = {
                 "id" : id,

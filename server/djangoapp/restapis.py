@@ -37,7 +37,7 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
-    url= "https://oussam92ing-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+    url= "https://oussam92ing-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
     response = requests.post(url, params=kwargs, json=json_payload)
     return response
 
@@ -69,7 +69,6 @@ def get_dealers_by_id_from_cf(url, id):
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result
-        print(dealers,"1")
         # For each dealer object
         for dealer in dealers:
             # Get its content in `doc` object
@@ -129,8 +128,8 @@ def get_dealer_reviews_from_cf(url, **kwargs):
 def analyze_review_sentiments(text):
     if len(text) < 100:
         return "Text length is too short for sentiment analysis"
-    url = "https://api.au-syd.natural-language-understanding.watson.cloud.ibm.com/instances/9c428d52-b0fb-4772-bbf3-1a090fa59810"
-    api_key = "0Z_fjgJAxpmlQHwvpZxNIbD18asEjTKdhDmlbvfo3peF"
+    url = ""
+    api_key = ""
     authenticator = IAMAuthenticator(api_key)
     natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator)
     natural_language_understanding.set_service_url(url)

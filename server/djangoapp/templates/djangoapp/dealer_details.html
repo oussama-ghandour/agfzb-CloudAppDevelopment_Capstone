@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Dealership Review</title>
     {% load static %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Custom styles -->
     <style>
@@ -11,6 +13,8 @@
             margin-top: 100px;
             margin-left: 100px;
         }
+        
+        
     </style>
 </head>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -55,20 +59,17 @@
         </ul>
     </div>
 </nav>
-
     <body>
-    <div class="card-details">
-        <div class="card border-info mb-3" style="max-width: 18rem;">
+    <div class="card-details" style="display: flex; flex-wrap:wrap;">
+        <div class="card border-info mb-3" style="max-width: 65rem; height: 8rem">
             <div class="card-header">Car Dealership Details</div>
             <div class="card-body text-info">
               <h5 class="card-title"> Dealer Name : {{dealer.full_name}}</h5>
-              <p class="card-text">{{dealer.city}}, {{dealer.state}}</p>
-              <p class="card-text">{{dealer.address}}</p>
-              <p class="card-text">{{delar.zip}}</p>
+              <p class="card-text"> Address: {{dealer.city}}, {{dealer.state}}, {{dealer.address}}, {{dealer.zip}}</p>
             </div>
         </div>
     </div>
-    <div class="card-details">
+    <div class="card-details" style="display: flex; flex-wrap:wrap;justify-content:space-between; margin-right:20px">
         <!-- This is where reviews will be displayed -->
         {% for review in reviews %}
             <div class="card border-info mb-3" style="max-width: 18rem;">

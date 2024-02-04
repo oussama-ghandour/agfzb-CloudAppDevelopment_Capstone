@@ -1,13 +1,16 @@
 import requests
 import json
+import os
 # import related models here
 from .models import CarDealer,DealerReview
 from requests.auth import HTTPBasicAuth
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
+from dotenv import load_dotenv
 
 
+load_dotenv()
 # Create a `get_request` to make HTTP GET requests
 def get_request(url, **kwargs):
     api_key = kwargs.get("api_key")
@@ -37,7 +40,7 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
-    url= "https://oussam92ing-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+    url= os.getenv('post_key')
     response = requests.post(url, params=kwargs, json=json_payload)
     return response
 
@@ -126,14 +129,14 @@ def get_dealer_reviews_from_cf(url, **kwargs):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
 def analyze_review_sentiments(text):
-    if len(text) < 100:
-        return "Text length is too short for sentiment analysis"
-    url = ""
-    api_key = ""
+    # if len(text) < 100:
+    #     return "Text length is too short for sentiment analysis"
+    url = os.getenv('url_key')
+    api_key = os.getenv('analyze_key')
     authenticator = IAMAuthenticator(api_key)
     natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator)
     natural_language_understanding.set_service_url(url)
-    response = natural_language_understanding.analyze(text=text ,features=Features(sentiment=SentimentOptions(targets=[text]))).get_result()
+    response = natural_language_understanding.analyze(text=text,limit_text_characters= 1000,features=Features(sentiment=SentimentOptions(targets=[text]))).get_result()
     label=json.dumps(response, indent=2)
     if 'sentiment' in response and 'document' in response['sentiment'] and 'label' in response['sentiment']['document']:
         label = response['sentiment']['document']['label']

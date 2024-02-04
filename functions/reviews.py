@@ -2,11 +2,14 @@ from cloudant.client import Cloudant
 from cloudant.query import Query
 from flask import Flask, jsonify, request
 import atexit
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 #Add your Cloudant service credentials here
-cloudant_username = '66f9c56c-0a94-4a8e-bf06-8be772388c90-bluemix'
-cloudant_api_key = 'abrRwBOU-TGUnq2vNtnnilGwsgTtGn5CDaUjJDJgQLdQ'
-cloudant_url = 'https://66f9c56c-0a94-4a8e-bf06-8be772388c90-bluemix.cloudantnosqldb.appdomain.cloud'
+cloudant_username = os.getenv('username_key')
+cloudant_api_key = os.getenv('cloudant_key')
+cloudant_url = os.getenv('cloudant_url_key ')
 client = Cloudant.iam(cloudant_username, cloudant_api_key, connect=True, url=cloudant_url)
 
 session = client.session()

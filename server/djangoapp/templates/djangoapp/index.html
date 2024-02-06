@@ -2,46 +2,98 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dealership Review</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Dealership</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- Custom styles -->
     <style>
-        .dealership_tab{
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa; /* Light gray background */
+            color: #333; /* Dark gray text */
+            padding-top: 70px; /* Make space for the fixed navbar */
+        }
+        .custom-card {
+            background-color: #f8f9fa; /* Light gray background */
+            border: 1px solid #ced4da; /* Gray border */
+            border-radius: 10px; /* Rounded corners */
+            padding: 20px; /* Add padding */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+
+        .custom-card .card-title {
+            color: #333; /* Dark gray card title */
+            font-size: 24px; /* Larger font size */
+            margin-bottom: 20px; /* Add space below title */
+        }
+
+        .custom-card .card-text {
+            color: #555; /* Darker gray text */
+            font-size: 18px; /* Larger font size */
+            margin-bottom: 30px; /* Add space below text */
+        }
+
+        .custom-card .btn-primary {
+            background-color: #007bff; /* Blue button */
+            border-color: #007bff; /* Blue button border */
+            font-size: 18px; /* Larger font size */
+            font-weight: bold; /* Bold font weight */
+            padding: 12px 40px; /* Increase button padding */
+            transition: all 0.3s ease; /* Smooth transition */
+        }
+
+        .custom-card .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            border-color: #0056b3; /* Darker blue button border on hover */
+        }
+
+        .navbar {
+            background-color: #0054AD; /* Blue navbar */
+        }
+
+        .navbar-brand {
+            color: #fff; /* White text */
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff; /* White text */
+        }
+
+        .dealership-tab {
             width: 75%;
-            margin-top: 50px;
-            margin-left: 200px;
+            margin: 50px auto; /* Center the content */
+        }
+        .spinner-border {
+            display: none; /* Initially hide the spinner */
+        }
+
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
         }
     </style>
 </head>
-
-    <body>
-     <!-- This is the index page of your Django app! -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div>
-            <a class="navbar-brand" href="#">Dealership Review</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Car Dealership</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-        </div>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                {% if user.is_authenticated %}
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
                         <span class="nav-link">Welcome, {{ user.username }}</span>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'djangoapp:logout' %}">Logout</a>
                     </li>
-                {% else %}
+                    {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
@@ -55,49 +107,70 @@
                         <a class="nav-link" href="{% url 'djangoapp:login' %}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'djangoapp:signup' %}">Create an ancount</a>
+                        <a class="nav-link" href="{% url 'djangoapp:signup' %}">Create an Account</a>
                     </li>
-                {% endif %}
-            </ul>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
-    <div class="dealership_tab">
-        <table class="table table-striped table-bordered" id="table" data-filter-control="true">
-            <thead class="table-light">
-                <tr>
-                    <th data-field="id">ID</th>
-                    <th data-field="dealer_name">Dealer Name</th>
-                    <th data-field="city">City</th>
-                    <th data-field="address">Address</th>
-                    <th data-field="zip">Zip</th>
-                    <th data-field="state" data-filter-control="select">State</th>
-        
-                </tr>
-            </thead>
-            <tbody>
-                {% for dealer in dealership_list %}
+
+    <!-- Main Content -->
+    <div class="dealership-tab">
+        {% if user.is_authenticated %}
+        <!-- Table displaying dealership list -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="table" data-filter-control="true">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Dealer Name</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Zip</th>
+                        <th scope="col">State</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dealer in dealership_list %}
                     <tr>
                         <td>{{dealer.id}}</td>
                         <td><a href="{% url 'djangoapp:dealers_details' dealer.id %}">{{dealer.full_name}}</a></td>
-                        <!-- <td>{{dealer.full_name}}</td> -->
                         <td>{{dealer.city}}</td>
                         <td>{{dealer.address}}</td>
                         <td>{{dealer.zip}}</td>
                         <td>{{dealer.st}}</td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="loading text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Welcome Message -->
+        <div class="card mb-3 custom-card" style="width:50%; margin-left:250px; margin-top:150px;">
+            <div class="card-body">
+                <h5 class="card-title text-center">Welcome to Car Dealership</h5>
+                <p class="card-text text-center">Our user-friendly app lets you explore a curated selection of vehicles
+                    and make informed decisions by checking reviews for a list of dealerships.</p>
+                <!-- Call to Action Button -->
+                <div class="text-center">
+                    <a href="#" class="btn btn-primary">Explore Dealerships</a>
+                </div>
+            </div>
+        </div>        
+        {% endif %}
     </div>
-
-    </body>
-    
-    <script>
-        $(function() {
-          $('#table').bootstrapTable()
-        })
-      </script>
-
-    </body>
-
-</html>
+</body>
+<!-- Bootstrap JS and jQuery -->
+<script>
+    $(function() {
+      $('#table').bootstrapTable()
+    })
+  </script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/"></script>

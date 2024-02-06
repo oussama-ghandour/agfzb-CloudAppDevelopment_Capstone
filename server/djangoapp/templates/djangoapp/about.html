@@ -7,12 +7,25 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Custom styles -->
     <style>
-        /* Add custom styles here */
+        .navbar {
+            background-color: #0054AD; /* Blue navbar */
+        }
+
+        .navbar-brand {
+                color: #fff; /* White text */
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff; /* White text */
+        }
+        .about-form {
+            margin-top: 100px;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Best Cars Dealership</a>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="#">Car Dealership</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,19 +43,19 @@
             </ul>
         </div>
     </nav>
-
-    <div class="container mt-4">
-        <div class="jumbotron">
-            <h1 class="display-4">Welcome to Best Cars Dealership</h1>
-            <p class="lead">Home to the best cars in North America. We sell domestic and imported cars at reasonable prices.</p>
-            <hr class="my-4">
-            <!-- Navigation links within content -->
-            <p>
-                Visit our page  <a href="{% url 'djangoapp:contact' %}" class="text-primary">Contact</a> us for more information.
-            </p>
+    <div class="about-form">
+        <div class="container mt-4">
+            <div class="jumbotron">
+                <h1 class="display-4">Welcome to Best Cars Dealership</h1>
+                <p class="lead">Home to the best cars in North America. We sell domestic and imported cars at reasonable prices.</p>
+                <hr class="my-4">
+                <!-- Navigation links within content -->
+                <p>
+                    Visit our page  <a href="{% url 'djangoapp:contact' %}" class="text-primary">Contact</a> us for more information.
+                </p>
+            </div>
         </div>
-    </div>
-
+    <div>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

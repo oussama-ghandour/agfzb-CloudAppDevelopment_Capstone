@@ -7,25 +7,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
     <!-- Custom styles -->
     <style>
-        .card-details{
-            margin-top: 100px;
-            margin-left: 100px;
-        }
-        .navbar {
-            background-color: #0054AD; /* Blue navbar */
-        }
-
-        .navbar-brand {
-                color: #fff; /* White text */
-        }
-
-        .navbar-nav .nav-link {
-            color: #fff; /* White text */
-        }
-        
-        
     </style>
 </head>
 <body>
@@ -40,7 +24,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
-                <a class="btn btn-link" href="{% url 'djangoapp:add_review' dealer.id %}">Add Review</a>
+                    <li class="nav-item">
+                        <a href="{% url 'djangoapp:add_review' dealer.id %}">
+                            <button class="button-66">Leave Your Review Here</button>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'djangoapp:index' %}">Home <span class="sr-only">(current)</span></a>
                     </li>
@@ -73,7 +61,7 @@
     </nav>
 
     <div class="card-details" style="display: flex; flex-wrap:wrap;">
-        <div class="card border-info mb-3" style="max-width: 65rem; height: 8rem">
+        <div class="card border-info mb-3" style="max-width: 65rem; height: 10rem">
             <div class="card-header">Car Dealership Details</div>
             <div class="card-body text-info">
               <h5 class="card-title"> Dealer Name : {{dealer.full_name}}</h5>

@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .container {
             max-width: 400px;
-            margin-top: 100px;
+            margin-top: 140px;
+            margin-right: 80px;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -98,23 +99,26 @@
             </div>
         </nav>
     <body>
-        <form action="{% url 'djangoapp:signup' %}" method="post">
-            {% csrf_token %}
-            <div class="container">
-              <h1>Sign Up</h1>
-              <hr>
-              <div class="form-group">
-                    <label for="username"><b>User Name</b></label>
-                    <input type="text" class="form-control" placeholder="Enter User Name" name="username" required> 
-                    <label for="first_name"><b>First Name</b></label>
-                    <input type="text" class="form-control" placeholder="Enter First Name" name="first_name" required>
-                    <label for="last_name"><b>Last Name</b></label>
-                    <input type="text" class="form-control" placeholder="Enter Last Name" name="last_name" required> 
-                    <label for="password"><b>Password</b></label>
-                    <input type="password" class="form-control" placeholder="Enter Password" name="password" required> 
-                    <button class="btn btn-primary" type="submit">Sign up</button> 
-              </div>
-            </div>
-        </form>
+        <div>
+            <form action="{% url 'djangoapp:signup' %}" method="post">
+                {% csrf_token %}
+                <div class="container">
+                  <h1>Sign Up</h1>
+                  <hr>
+                  <div class="form-group">
+                        <label for="username"><b>User Name</b></label>
+                        <input type="text" class="form-control" placeholder="Enter User Name" name="username" required> 
+                        <label for="first_name"><b>First Name</b></label>
+                        <input type="text" class="form-control" placeholder="Enter First Name" name="first_name" required>
+                        <label for="last_name"><b>Last Name</b></label>
+                        <input type="text" class="form-control" placeholder="Enter Last Name" name="last_name" required> 
+                        <label for="password"><b>Password</b></label>
+                        <input type="password" class="form-control" placeholder="Enter Password" name="password" required> 
+                        <button class="btn btn-primary" type="submit">Sign up</button> 
+                  </div>
+                </div>
+            </form>
+        </div>
+        
     </body>
 </html>

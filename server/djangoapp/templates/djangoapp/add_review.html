@@ -8,6 +8,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <style>
         .card {
             width: 50%;
@@ -60,13 +61,14 @@
             </div>
         </nav>
     <!-- Review form -->
+    <form method="post" action="{% url 'djangoapp:add_review' dealer.id %}" >
+    {% csrf_token %}
     <div class="card">
         <div class="card-body">
             <div class="card-header">
             <h2>Reviews for {{dealer.full_name}}</h2>
             </div>
-            <form action="{% url 'djangoapp:add_review' dealer.id %}" method="post">
-                {% csrf_token %}
+           
                 <!-- Textarea for review content -->
                 <div class="mb-3">
                     <label for="content" style="font-weight: bold; font-size: large;" class="form-label">Enter the review content:</label>
@@ -90,6 +92,7 @@
                         <option value="{{ car.id }}">{{ car.car_type }} - {{ car.name }} - {{ car.year|date:"Y" }}</option>
                     {% endfor %}
                 </select>
+
                 
                 
                 
@@ -104,9 +107,10 @@
                 <br>
                 <!-- Submit button -->
                 <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div> 
+           
+            </div>
+        </div> 
+    </form>
     <!-- Include jQuery and the datepicker plugin script -->
     <script type="text/javascript">
         $('.date-own').datepicker({

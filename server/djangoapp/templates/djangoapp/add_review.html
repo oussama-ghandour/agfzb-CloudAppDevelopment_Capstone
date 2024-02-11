@@ -61,9 +61,10 @@
             </div>
         </nav>
     <!-- Review form -->
+    <div class="card">
     <form method="post" action="{% url 'djangoapp:add_review' dealer.id %}" >
     {% csrf_token %}
-    <div class="card">
+    
         <div class="card-body">
             <div class="card-header">
             <h2>Reviews for {{dealer.full_name}}</h2>
@@ -87,15 +88,11 @@
                 <!-- Bootstrap dropdown to select a car -->
                 <label for="car" style="font-weight: bold; font-size: 1.25rem;">Select your car (model-make-year):</label>
                 <select name="car" id="car" class="form-select" >
-                  
                     {% for car in cars %}
                         <option value="{{ car.id }}">{{ car.car_type }} - {{ car.name }} - {{ car.year|date:"Y" }}</option>
                     {% endfor %}
                 </select>
-
-                
-                
-                
+                <input type="hidden" name="id" value="{{ id }}">
                 <!-- Date input for purchase date -->
                 <br>
                 <div class="row">
@@ -107,10 +104,10 @@
                 <br>
                 <!-- Submit button -->
                 <button type="submit" class="btn btn-primary">Submit</button>
-           
             </div>
-        </div> 
     </form>
+    </div> 
+    
     <!-- Include jQuery and the datepicker plugin script -->
     <script type="text/javascript">
         $('.date-own').datepicker({

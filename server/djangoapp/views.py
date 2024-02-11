@@ -19,9 +19,6 @@ load_dotenv()
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
-
-
-# Create your views here.
 # Create an `about` view to render a static about page
 def about_view(request):
     return render(request, 'djangoapp/about.html')
@@ -98,9 +95,11 @@ def get_dealer_details(request, id):
     if request.method == "GET":
         context = {}
         dealer_url = os.getenv('dealer_key')
+        # Get dealer information
         dealer = get_dealers_by_id_from_cf(dealer_url, id=id)
         context["dealer"] = dealer
         review_url = os.getenv('review_key')
+        # Get reviews for the dealer
         reviews = get_dealer_reviews_from_cf(review_url, id=id)
         print(reviews)
         context["reviews"] = reviews
@@ -109,78 +108,15 @@ def get_dealer_details(request, id):
 def add_review(request, id):
     context = {}
     url = os.getenv('dealer_key')
+    # Get dealer information
     dealer = get_dealers_by_id_from_cf(url, id=id)
     context["dealer"] = dealer
-    if request.method == "GET":
-        cars = CarModel.objects.all()
-        print(cars)
-        context["cars"] = cars
-
-        return render(request, 'djangoapp/add_review.html', context)
-    elif request.method == 'POST':
-        if request.user.is_authenticated:
-            username = request.user.username
-            print(request.POST)
-            payload = dict()
-            car_id = request.POST["car"]
-            print("Car ID:", car_id)
-            try:
-                car = CarModel.objects.get(pk=car_id)
-                print("Car Model:", car)
-            except CarModel.DoesNotExist:
-                print("Car not found with ID:", car_id)
-            payload["time"] = datetime.utcnow().isoformat()
-            payload["name"] = username
-            payload["dealership"] = id 
-            payload["id"] = id
-            payload["review"] = request.POST["content"]
-            payload["purchase"] = False
-            if "purchasecheck" in request.POST:
-                if request.POST["purchasecheck"] == 'on':
-                    payload["purchase"] = True
-            payload["purchase_date"] = request.POST["purchasedate"]
-            payload["car_make"] = car.car_make.name
-            payload["car_model"] = car.name
-            payload["car_year"] = int(car.year.strftime("%Y"))
-
-            new_payload = {}
-            new_payload["review"] = payload
-            post_url  = os.getenv('review_key')
-            review = {
-                "id":id,
-                "time":datetime.utcnow().isoformat(),
-                "name":request.user.username,  # Assuming you want to use the authenticated user's name
-                "dealership" :id,                
-                "review": request.POST["content"],  # Extract the review from the POST request
-                "purchase": True,  # Extract purchase info from POST
-                "purchase_date":request.POST["purchasedate"],  # Extract purchase date from POST
-                "car_make": car.car_make.name,  # Extract car make from POST
-                "car_model": car.name,  # Extract car model from POST
-                "car_year": int(car.year.strftime("%Y")),  # Extract car year from POST
-            }
-            review=json.dumps(review,default=str)
-            new_payload1 = {}
-            new_payload1["review"] = review
-            print("\nREVIEW:",review)
-            post_request(post_url, review, id=id)
-            print(id)
-            print("successfully posted")
-            return redirect("djangoapp:dealers_details", id=id)
-        
-
-            
-
-from django.shortcuts import redirect
-
-def add_review(request, id):
-    context = {}
-    url = os.getenv('dealer_key')
-    dealer = get_dealers_by_id_from_cf(url, id=id)
-    context["dealer"] = dealer
+    # Handle GET request
     if request.method == "GET":
         cars = CarModel.objects.all()
         context["cars"] = cars
         return render(request, 'djangoapp/add_review.html', context)
+    # Handle POST request
     elif request.method == 'POST':
         if request.user.is_authenticated:
             username = request.user.username
@@ -191,11 +127,13 @@ def add_review(request, id):
             except CarModel.DoesNotExist:
                 print("Car not found with ID:", car_id)
                 return redirect("djangoapp:dealers_details", id=id)
+            # Construct payload for the review
             payload["time"] = datetime.utcnow().isoformat()
             payload["name"] = username
             payload["dealership"] = id 
             payload["id"] = id
             payload["review"] = request.POST["content"]
+            # Check if the user purchased the car
             payload["purchase"] = False
             if "purchasecheck" in request.POST:
                 if request.POST["purchasecheck"] == 'on':
@@ -204,10 +142,10 @@ def add_review(request, id):
             payload["car_make"] = car.car_make.name
             payload["car_model"] = car.name
             payload["car_year"] = int(car.year.strftime("%Y"))
-
-            # Assuming post_request() sends the review data to the backend
+            # post_request() send the review data to the backend
             post_url  = os.getenv('review_key')
             post_request(post_url, payload)
+            # Redirect to the dealer details pa
             return redirect("djangoapp:dealers_details", id=id)
     return redirect("djangoapp:dealers_details", id=id)
 

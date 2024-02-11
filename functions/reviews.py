@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-#Add your Cloudant service credentials here
+# Cloudant service 
 cloudant_username = os.getenv('username_key')
 cloudant_api_key = os.getenv('cloudant_key')
 cloudant_url = os.getenv('cloudant_url_key ')

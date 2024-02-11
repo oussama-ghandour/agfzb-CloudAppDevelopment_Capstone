@@ -1,7 +1,7 @@
 import requests
 import json
 import os
-# import related models here
+# import related models 
 from .models import CarDealer,DealerReview
 from requests.auth import HTTPBasicAuth
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -88,6 +88,8 @@ def get_dealers_by_id_from_cf(url, id):
 
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
+# - Call get_request() with specified arguments
+# - Parse JSON results into a CarDealer DealerReview object list
 def get_dealer_reviews_from_cf(url, **kwargs):
     results = []
     id = kwargs.get("id")
@@ -97,9 +99,12 @@ def get_dealer_reviews_from_cf(url, **kwargs):
     else:
         json_result = get_request(url)
     print(json_result)
+    # Process JSON result if available
     if json_result:
         print(json_result)
+        # Extract reviews from JSON result
         reviews = json_result
+        # Iterate through each review and create a DealerReview object
         for dealer_review in reviews:
             review_obj = DealerReview(dealership = dealer_review["dealership"], name = dealer_review["name"],
                                       purchase = dealer_review["purchase"], review = dealer_review["review"])
@@ -113,31 +118,27 @@ def get_dealer_reviews_from_cf(url, **kwargs):
                 review_obj.car_model = dealer_review["car_model"]
             if  "car_year" in dealer_review:
                 review_obj.car_year = dealer_review["car_year"]
-           
+            # Analyze review sentiment
             sentiment = analyze_review_sentiments(review_obj.review)
             print(sentiment)
             review_obj.sentiment = sentiment
+            # Append the DealerReview object to the results list
             results.append(review_obj)
-
     return results
 
-# - Call get_request() with specified arguments
-# - Parse JSON results into a CarDealer DealerReview object list
-
-
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
-# - Call get_request() with specified arguments
-# - Get the returned sentiment label such as Positive or Negative
 def analyze_review_sentiments(text):
-    # if len(text) < 100:
-    #     return "Text length is too short for sentiment analysis"
     url = os.getenv('url_key')
     api_key = os.getenv('analyze_key')
     authenticator = IAMAuthenticator(api_key)
+    # Create Natural Language Understanding object
     natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator)
     natural_language_understanding.set_service_url(url)
+    # Analyze sentiment
     response = natural_language_understanding.analyze(text=text,limit_text_characters= 1000,features=Features(sentiment=SentimentOptions(targets=[text]))).get_result()
+    # Convert response to JSON format
     label=json.dumps(response, indent=2)
+    # Get the returned sentiment label such as Positive or Negative
     if 'sentiment' in response and 'document' in response['sentiment'] and 'label' in response['sentiment']['document']:
         label = response['sentiment']['document']['label']
         return label
